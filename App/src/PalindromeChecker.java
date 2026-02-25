@@ -2,54 +2,23 @@ import java.util.Scanner;
 
 public class PalindromeChecker {
 
-    // Node class for Singly Linked List
-    static class Node {
-        char data;
-        Node next;
+    // Method to check palindrome after normalization
+    public static boolean isPalindrome(String input) {
 
-        Node(char data) {
-            this.data = data;
-            this.next = null;
-        }
-    }
+        // Step 1: Normalize string
+        // Convert to lowercase and remove all non-alphanumeric characters
+        String normalized = input.toLowerCase().replaceAll("[^a-z0-9]", "");
 
-    // Method to check palindrome
-    public static boolean isPalindrome(Node head) {
+        // Step 2: Two-pointer comparison
+        int start = 0;
+        int end = normalized.length() - 1;
 
-        if (head == null || head.next == null)
-            return true;
-
-        // Step 1: Find middle using fast & slow pointer
-        Node slow = head;
-        Node fast = head;
-
-        while (fast != null && fast.next != null) {
-            slow = slow.next;
-            fast = fast.next.next;
-        }
-
-        // Step 2: Reverse second half
-        Node prev = null;
-        Node current = slow;
-        Node nextNode;
-
-        while (current != null) {
-            nextNode = current.next;
-            current.next = prev;
-            prev = current;
-            current = nextNode;
-        }
-
-        // Step 3: Compare first half and reversed second half
-        Node firstHalf = head;
-        Node secondHalf = prev;
-
-        while (secondHalf != null) {
-            if (firstHalf.data != secondHalf.data) {
+        while (start < end) {
+            if (normalized.charAt(start) != normalized.charAt(end)) {
                 return false;
             }
-            firstHalf = firstHalf.next;
-            secondHalf = secondHalf.next;
+            start++;
+            end--;
         }
 
         return true;
@@ -61,23 +30,8 @@ public class PalindromeChecker {
         System.out.print("Enter a string: ");
         String input = scanner.nextLine();
 
-        // Convert string to linked list
-        Node head = null, tail = null;
-
-        for (int i = 0; i < input.length(); i++) {
-            Node newNode = new Node(input.charAt(i));
-            if (head == null) {
-                head = newNode;
-                tail = newNode;
-            } else {
-                tail.next = newNode;
-                tail = newNode;
-            }
-        }
-
-        // Check palindrome
-        if (isPalindrome(head)) {
-            System.out.println("The given string is a Palindrome.");
+        if (isPalindrome(input)) {
+            System.out.println("The given string is a Palindrome (ignoring spaces & case).");
         } else {
             System.out.println("The given string is NOT a Palindrome.");
         }
