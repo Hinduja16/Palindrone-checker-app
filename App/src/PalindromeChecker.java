@@ -1,15 +1,15 @@
 import java.util.Scanner;
 
-public class PalindromeChecker {
+// Service Class (Encapsulation)
+class PalindromeService {
 
-    // Method to check palindrome after normalization
-    public static boolean isPalindrome(String input) {
+    public boolean checkPalindrome(String input) {
 
-        // Step 1: Normalize string
-        // Convert to lowercase and remove all non-alphanumeric characters
+        if (input == null)
+            return false;
+
         String normalized = input.toLowerCase().replaceAll("[^a-z0-9]", "");
 
-        // Step 2: Two-pointer comparison
         int start = 0;
         int end = normalized.length() - 1;
 
@@ -23,6 +23,10 @@ public class PalindromeChecker {
 
         return true;
     }
+}
+
+// Main Application Class
+public class PalindromeChecker {
 
     public static void main(String[] args) {
 
@@ -30,8 +34,13 @@ public class PalindromeChecker {
         System.out.print("Enter a string: ");
         String input = scanner.nextLine();
 
-        if (isPalindrome(input)) {
-            System.out.println("The given string is a Palindrome (ignoring spaces & case).");
+        // Create service object
+        PalindromeService checker = new PalindromeService();
+
+        boolean result = checker.checkPalindrome(input);
+
+        if (result) {
+            System.out.println("The given string is a Palindrome.");
         } else {
             System.out.println("The given string is NOT a Palindrome.");
         }
